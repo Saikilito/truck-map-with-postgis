@@ -1,0 +1,7 @@
+.App {
+    background-color: gray;
+}
+
+*:focus, *:focus-visible {
+    outline: 1px solid #28a745 !important;
+}

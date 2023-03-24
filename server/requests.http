@@ -1,0 +1,27 @@
+GET http://localhost:8089/api/user/all?limit=100
+
+###
+GET http://localhost:8089/api/user/2
+
+#### Create User
+ POST http://localhost:8089/api/user/create
+Content-Type: application/json
+
+{
+    "username": "Pepito",
+    "latitude": 10.5097418,
+    "longitude": -66.9292068
+}
+
+###
+DELETE http://localhost:8089/api/user/1
+
+
+###
+PATCH http://localhost:8089/api/user/3
+Content-Type: application/json
+
+{
+    "username": "Israel Laguan",
+    "lon": 15
+}
