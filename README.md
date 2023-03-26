@@ -43,6 +43,8 @@ Install the required dependencies by running npm install.
 Make your changes and test them thoroughly.
 Create a pull request to this repository with a detailed description of your changes.
 
+Notice thiis repo have a file `.cmf.yaml`, it's intended to guide abouthow to make commits using certain convention. Please refer to [CMF docs](https://github.com/walmartdigital/commit-message-formatter) for more information.
+
 # License
 
 The People Locator App is licensed under the MIT License. See the LICENSE file for more information.
