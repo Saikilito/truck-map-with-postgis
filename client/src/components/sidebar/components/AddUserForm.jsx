@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useFetch from 'use-http';
 
 import { Constants } from '../../../utils';
@@ -7,15 +7,11 @@ import Input from '../../input/Input';
 export const AddUserForm = ({
   userLatitude,
   userLongitude,
-  hiddenserForm,
+  hiddenUserForm,
   onHandleHiddenForm,
+  markerPosition,
+  setMarkerPosition,
 }) => {
-  const [addUserForm, setAddUserForm] = useState({
-    username: '',
-    latitude: userLatitude ?? '',
-    longitude: userLongitude ?? '',
-  });
-
   const { post, loading } = useFetch(Constants.backendBasePath);
 
   const inputValues = [
@@ -23,29 +19,42 @@ export const AddUserForm = ({
       id: 'usenameInput',
       name: 'username',
       placeholder: 'username',
-      value: addUserForm.username,
+      value: markerPosition?.username ?? '',
+      required: true,
     },
     {
       id: 'latitudeInput',
       type: 'number',
       name: 'latitude',
       placeholder: 'latitude',
-      value: addUserForm.latitude,
+      value: markerPosition?.latitude ?? '',
+      readonly: true,
+      required: true,
     },
     {
       id: 'longitudeInput',
       type: 'number',
       name: 'longitude',
       placeholder: 'longitude',
-      value: addUserForm.longitude,
+      value: markerPosition?.longitude ?? '',
+      readonly: true,
+      required: true,
     },
   ];
 
+  useEffect(() => {
+    setMarkerPosition((prev) => ({
+      ...prev,
+      latitude: userLatitude,
+      longitude: userLongitude,
+    }));
+  }, [userLatitude, userLongitude]);
+
   const onChange = (e) => {
-    setAddUserForm((prev) => ({
+    setMarkerPosition(prev => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }));
+    }))
   };
 
   const onSubmitAddResult = async (e, data) => {
@@ -72,22 +81,22 @@ export const AddUserForm = ({
     <div>
       <button
         className="sidebar__open-close-button"
-        style={{ backgroundColor: hiddenserForm ? '' : '#f44336' }}
+        style={{ backgroundColor: hiddenUserForm ? '' : '#f44336' }}
         onClick={onHandleHiddenForm}
       >
         {' '}
-        {hiddenserForm ? 'Add User' : 'Close form'}
+        {hiddenUserForm ? 'Add User' : 'Close form'}
       </button>
       <form
         onSubmit={(e) => {
-          onSubmitAddResult(e, addUserForm);
+          onSubmitAddResult(e, markerPosition);
         }}
         className="sidebar__search-bar"
       >
         <div
           style={{
             width: '100%',
-            display: hiddenserForm ? 'none' : 'flex',
+            display: hiddenUserForm ? 'none' : 'flex',
             flexDirection: 'column',
           }}
         >
@@ -103,7 +112,7 @@ export const AddUserForm = ({
             />
           ))}
           <button
-            tabIndex="1"
+            tabIndex={-1}
             style={{ cursor: 'pointer' }}
             disabled={loading}
             type="submit"
