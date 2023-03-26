@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
-import Marker from './marker/Marker';
+import Markers from './marker/Marker';
 
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
@@ -10,6 +10,9 @@ const Map = ({
   results = [],
   selectedItem = {},
   userPosition,
+  hiddenUserForm,
+  markerPosition,
+  setMarkerPosition,
   onItemSelect = () => {},
 }) => {
   const mapRef = useRef(null);
@@ -96,7 +99,7 @@ const Map = ({
       <MapContainer
         className="map"
         center={userPosition}
-        zoom={12}
+        zoom={3}
         whenReady={(map) => {
           mapRef.current = map;
         }}
@@ -105,15 +108,14 @@ const Map = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {results.length &&
-          results.map((result) => (
-            <Marker
-              key={`marker-${result.id}`}
-              item={result}
-              onItemSelect={onItemSelect}
-              selectedItem={selectedItem}
-            />
-          ))}
+        <Markers
+          results={results}
+          onItemSelect={onItemSelect}
+          selectedItem={selectedItem}
+          hiddenUserForm={hiddenUserForm}
+          markerPosition={markerPosition}
+          setMarkerPosition={setMarkerPosition}
+        />
       </MapContainer>
     </div>
   );
