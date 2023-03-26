@@ -8,7 +8,6 @@ const Input = ({
   className,
   value,
   name,
-  onInput,
   onChange,
   clearable,
   autofocus,
@@ -24,7 +23,6 @@ const Input = ({
       placeholder={placeholder}
       className={`input ${className}`}
       value={value}
-      onInput={(e) => onInput(e.target.value)}
       onChange={onChange}
     />
     {clearable && (

@@ -8,11 +8,11 @@ const userRoutes = Router()
 userRoutes.get('/all', async (req: Request, res: Response) => {
   try {
     const { limit, km, latitude, longitude } = req.query
-    let searchByKm: ISeachByKm | null = null
+    let searchByKm: ISeachByKm | undefined = undefined
 
-    if (km && latitude && longitude) {
+    if (latitude && longitude) {
       searchByKm = {
-        km: parseInt(km as string),
+        km: km ? parseInt(km as string) : undefined,
         latitude: parseFloat(latitude as string),
         longitude: parseFloat(longitude as string)
       }

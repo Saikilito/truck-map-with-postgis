@@ -1,8 +1,10 @@
-import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
-import './Map.css';
+
 import Marker from './marker/Marker';
+
+import 'leaflet/dist/leaflet.css';
+import './Map.css';
 
 const Map = ({
   results = [],
@@ -41,7 +43,6 @@ const Map = ({
   useEffect(() => {
     if (!mapRef.current) return;
 
-    console.info({ mapRef });
     mapRef.current.target.on({
       click: function () {
         onItemSelect(null);
@@ -95,7 +96,7 @@ const Map = ({
       <MapContainer
         className="map"
         center={userPosition}
-        zoom={6}
+        zoom={12}
         whenReady={(map) => {
           mapRef.current = map;
         }}

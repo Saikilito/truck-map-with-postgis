@@ -1,35 +1,35 @@
 .results {
-    margin: 1rem 0;
-    padding: 5px 10px;
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    height: 90%;
-    overflow-y: scroll;
-    position: sticky;
-    top: 0px;
+  margin: 1rem 0;
+  padding: 5px 10px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 60%;
+  overflow-y: scroll;
+  position: sticky;
+  top: 0px;
 }
 
 li.result--selected {
-    background-color: rgba(168, 25, 25, 0.278);
+  background-color: rgba(168, 25, 25, 0.278);
 }
 
 .results__item {
-    background-color: rgba(59, 59, 59, 0.1);
-    border-radius: 8px;
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    user-select: none;
-    cursor: pointer;
+  background-color: rgba(59, 59, 59, 0.1);
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  user-select: none;
+  cursor: pointer;
 }
 
 .results__image {
-    width: 15%;
-    object-fit: contain;
+  width: 15%;
+  object-fit: contain;
 }
 
 .results__info {
-    width: 90%;
+  width: 90%;
 }

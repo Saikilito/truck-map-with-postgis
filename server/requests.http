@@ -1,7 +1,8 @@
-GET http://localhost:8089/api/user/all?limit=100
+### Get All Users
+GET http://localhost:8089/api/user/all?limit=10
 
-###
-GET http://localhost:8089/api/user/2
+### Get User By ID
+GET http://localhost:8089/api/user/20
 
 #### Create User
  POST http://localhost:8089/api/user/create
@@ -13,15 +14,14 @@ Content-Type: application/json
     "longitude": -66.9292068
 }
 
-###
-DELETE http://localhost:8089/api/user/1
+### Delete User By ID
+DELETE http://localhost:8089/api/user/20
 
 
-###
-PATCH http://localhost:8089/api/user/3
+### Update User By ID
+PATCH http://localhost:8089/api/user/15
 Content-Type: application/json
 
 {
-    "username": "Israel Laguan",
-    "lon": 15
+    "username": "Fransisco Ramirez"
 }

@@ -1,7 +1,7 @@
 import { type User, type UserInput } from './user.entity'
 
 export interface ISeachByKm {
-  km: number
+  km?: number
   latitude: number
   longitude: number
 }

@@ -34,7 +34,12 @@ const Results = ({
           <div className="results__info">
             <h4 className="results__item-name">{person.username}</h4>
             <i className="results__item-address">
-              {person.latitude} {person.longitude}
+              <p>
+                <b>lat:</b> {person.latitude}
+              </p>
+              <p>
+                <b>lng:</b> {person.longitude}
+              </p>
             </i>
           </div>
         </li>

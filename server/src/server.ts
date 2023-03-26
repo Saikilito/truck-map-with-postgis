@@ -10,8 +10,8 @@ const server = app.listen(app.get('port'), () => {
   dotenv.config()
   Knex.knexMigrate(migrations)
     .then(() => {
-      console.log('  App is running at http://localhost:%d 🚀🚀 in %s mode', app.get('port'), app.get('env'))
-      console.log('  Press CTRL-C to stop\n')
+      console.info('  App is running at http://localhost:%d 🚀🚀 in %s mode', app.get('port'), app.get('env'))
+      console.info('  Press CTRL-C to stop\n')
     })
     .catch(console.error)
 })

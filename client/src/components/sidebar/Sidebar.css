@@ -2,6 +2,7 @@
   background-color: #edeade;
   padding: 1rem;
   max-width: 20rem;
+  min-width: 270px;
   height: 100vh;
   box-sizing: border-box;
 }

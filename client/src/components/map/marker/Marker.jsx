@@ -8,9 +8,9 @@ import {
 
 const Marker = ({ item, onItemSelect, selectedItem }) => {
   const [position, setPosition] = useState(null);
+  useEffect(() => console.info({ position }, [setPosition]));
   const map = useMapEvents({
     click() {
-      console.info({ map });
       map.locate();
     },
     locationfound(e) {
@@ -20,10 +20,6 @@ const Marker = ({ item, onItemSelect, selectedItem }) => {
   });
 
   const markerRef = useRef(null);
-
-  useEffect(() => {
-    console.info(position);
-  }, [position]);
 
   useEffect(() => {
     const isLoaded =
@@ -44,8 +40,7 @@ const Marker = ({ item, onItemSelect, selectedItem }) => {
       ref={markerRef}
       position={{ lat: item.latitude, lng: item.longitude }}
       eventHandlers={{
-        click: (e) => {
-          console.info('HOLAA', e);
+        click: () => {
           onItemSelect(item);
         },
       }}
@@ -54,7 +49,7 @@ const Marker = ({ item, onItemSelect, selectedItem }) => {
       <Popup>
         <h4>{item.username}</h4>
         <i>
-          {item.latitude} {item.longitude}
+          {item.latitude}, {item.longitude}
         </i>
       </Popup>
       <Tooltip direction="bottom" offset={[0, 20]} opacity={1}>
