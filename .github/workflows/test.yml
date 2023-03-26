@@ -42,3 +42,5 @@ jobs:
       - name: Test - server
         run: npm run test
         working-directory: ./server
+    env:
+      CI: true
