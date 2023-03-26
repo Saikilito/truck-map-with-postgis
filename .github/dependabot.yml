@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/server'
+    schedule:
+      interval: monthly
+      time: '04:00'
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: 'express'
+      - dependency-name: 'knex'
+      - dependency-name: 'morgan'
+      - dependency-name: 'pg'
+      - dependency-name: 'typescript'
+  - package-ecosystem: npm
+    directory: '/client'
+    schedule:
+      interval: monthly
+      time: '04:00'
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: '@types/react'
+      - dependency-name: '@types/react-dom'
+      - dependency-name: 'leaflet'
+      - dependency-name: 'react-leaflet'
+      - dependency-name: 'use-http'
+      - dependency-name: 'typescript'
+      - dependency-name: 'snowpack'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
