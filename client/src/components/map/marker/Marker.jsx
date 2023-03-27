@@ -8,15 +8,21 @@ import {
 
 import { Icon } from 'leaflet';
 
-const Markers = ({ results, onItemSelect, selectedItem, hiddenUserForm, markerPosition, setMarkerPosition }) => {
-
+const Markers = ({
+  results,
+  onItemSelect,
+  selectedItem,
+  hiddenUserForm,
+  markerPosition,
+  setMarkerPosition,
+}) => {
   const map = useMapEvents({
     click(e) {
       if (hiddenUserForm) {
         map.locate();
         return;
       }
-      setMarkerPosition(prev => ({
+      setMarkerPosition((prev) => ({
         ...prev,
         latitude: e.latlng.lat,
         longitude: e.latlng.lng,
@@ -27,19 +33,21 @@ const Markers = ({ results, onItemSelect, selectedItem, hiddenUserForm, markerPo
     },
   });
 
-  const markerIcon = () => new Icon({
-    iconUrl: `/images/marker-icon-2x.png`,
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [30, 46],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-  });
-  
+  const markerIcon = () =>
+    new Icon({
+      iconUrl: `/images/marker-icon-2x.png`,
+      shadowUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [30, 46],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41],
+    });
+
   return (
     <>
-      {
-        results && results.map((item) => {
+      {results &&
+        results.map((item) => {
           const isSelected = () => selectedItem?.id === item.id;
           return (
             <MapMarker
@@ -49,7 +57,7 @@ const Markers = ({ results, onItemSelect, selectedItem, hiddenUserForm, markerPo
               eventHandlers={{
                 click: () => {
                   onItemSelect(item);
-                }
+                },
               }}
               opacity={!selectedItem?.id || isSelected() ? 1 : 0.3}
             >
@@ -63,9 +71,8 @@ const Markers = ({ results, onItemSelect, selectedItem, hiddenUserForm, markerPo
                 {item.username}
               </Tooltip>
             </MapMarker>
-          )
-        })
-      }
+          );
+        })}
       {markerPosition && !hiddenUserForm && (
         <MapMarker
           icon={markerIcon()}

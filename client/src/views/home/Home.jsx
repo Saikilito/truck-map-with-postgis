@@ -16,11 +16,14 @@ function generateRandomCoordinates() {
 
 const Home = () => {
   const [userPosition, setUserPosition] = useState(
+    // @ts-ignore
     new L.LatLng(...generateRandomCoordinates()),
   );
   const [persons, setPersons] = useState([]);
-  const [selectedPerson, setSelectedPerson] = useState(null);
-  // * It is possible to change the name to a better one
+  const [selectedPerson, setSelectedPerson] = useState({
+    latitude: '',
+    longitude: '',
+  });
   const [markerPosition, setMarkerPosition] = useState({
     username: '',
     latitude: '',
@@ -47,17 +50,20 @@ const Home = () => {
   }, []);
 
   // Create first user
-  useEffect(async () => {
-    if (!persons.length) {
+  useEffect(() => {
+    const getUserOrCreate = async () => {
       const user = await get('/all?limit=1');
       const notUsers = user.length === 0;
       if (notUsers) {
         await post('/create', {
-          username: 'My Selft',
+          username: 'My Self',
           latitude: userPosition.lat,
           longitude: userPosition.lng,
         });
       }
+    };
+    if (!persons.length) {
+      getUserOrCreate();
     }
   }, []);
 
@@ -71,8 +77,8 @@ const Home = () => {
       username: '',
       latitude: '',
       longitude: '',
-    })
-  }, [hiddenUserForm])
+    });
+  }, [hiddenUserForm]);
 
   const getAPIPersons = async () => {
     const rawPersons = await get(`/all`);

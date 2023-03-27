@@ -8,7 +8,7 @@ import './Map.css';
 
 const Map = ({
   results = [],
-  selectedItem = {},
+  selectedItem = { latitude: '', longitude: '' },
   userPosition,
   hiddenUserForm,
   markerPosition,
@@ -22,6 +22,7 @@ const Map = ({
       return;
 
     const { latitude, longitude } = selectedItem;
+    // @ts-ignore
     mapRef.current.target.flyTo({ lat: latitude, lng: longitude }, 15);
   }, [selectedItem, selectedItem?.latitude, selectedItem?.longitude]);
 
@@ -30,9 +31,11 @@ const Map = ({
 
     const { latitude, longitude } = results[0];
 
+    // @ts-ignore
     mapRef.current.target.flyTo({ lat: latitude, lng: longitude });
 
     // Removing the map markers from keyboard flow
+    // @ts-ignore
     const mapElement = mapRef.current.target._container;
     const mapMarkersElements = mapElement.getElementsByClassName(
       'leaflet-marker-icon',
@@ -46,9 +49,10 @@ const Map = ({
   useEffect(() => {
     if (!mapRef.current) return;
 
+    // @ts-ignore
     mapRef.current.target.on({
       click: function () {
-        onItemSelect(null);
+        onItemSelect();
       },
       popupopen: function (event) {
         // When a popup is opened, then the focus is going to the PopUp, so it's easy to find
@@ -72,6 +76,7 @@ const Map = ({
     });
 
     // Removing the map container from keyboard flow
+    // @ts-ignore
     const mapElement = mapRef.current.target._container;
     mapElement.setAttribute('tabindex', '-1');
 

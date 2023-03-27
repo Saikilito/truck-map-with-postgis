@@ -2,7 +2,6 @@ import React from 'react';
 import './Input.css';
 
 const Input = ({
-  type,
   id,
   placeholder,
   className,
@@ -11,7 +10,8 @@ const Input = ({
   onChange,
   clearable,
   autofocus,
-  tabIndex = '0',
+  type = 'text',
+  tabIndex = 0,
   readonly = false,
   required = false,
 }) => (
@@ -30,7 +30,9 @@ const Input = ({
       required={required}
     />
     {clearable && (
-      <button tabIndex="-1" type="reset" className="input__cancel-btn">Cancel</button>
+      <button tabIndex={-1} type="reset" className="input__cancel-btn">
+        Cancel
+      </button>
     )}
   </div>
 );

@@ -51,10 +51,10 @@ export const AddUserForm = ({
   }, [userLatitude, userLongitude]);
 
   const onChange = (e) => {
-    setMarkerPosition(prev => ({
+    setMarkerPosition((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
+    }));
   };
 
   const onSubmitAddResult = async (e, data) => {
@@ -104,7 +104,7 @@ export const AddUserForm = ({
             <Input
               {...inputConfig}
               key={`inp-${index}`}
-              tabIndex="1"
+              tabIndex={1}
               autofocus
               clearable
               className="sidebar__search-input"
@@ -112,7 +112,7 @@ export const AddUserForm = ({
             />
           ))}
           <button
-            tabIndex="-1"
+            tabIndex={-1}
             style={{ cursor: 'pointer' }}
             disabled={loading}
             type="submit"

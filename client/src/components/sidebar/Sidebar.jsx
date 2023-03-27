@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Loading from '../loading/Loading.jsx';
 import { Results, AddUserForm, MyLocation, SearchForm } from './components';
@@ -19,7 +19,6 @@ const Sidebar = ({
   setMarkerPosition,
   error,
 }) => {
-
   return (
     <div className={`sidebar sidebar-show`}>
       <MyLocation
