@@ -61,6 +61,8 @@ export const AddUserForm = ({
     e.preventDefault();
     let { username, longitude, latitude } = data;
 
+    console.log(username, longitude, latitude)
+
     try {
       if (!username || username.length < 4) {
         throw Error('Invalid User name');
@@ -106,7 +108,7 @@ export const AddUserForm = ({
               key={`inp-${index}`}
               tabIndex={1}
               autofocus
-              clearable
+              clearable={false}
               className="sidebar__search-input"
               onChange={onChange}
             />
