@@ -30,7 +30,7 @@ const Input = ({
       required={required}
     />
     {clearable && (
-      <button tabIndex={"-1"} type="reset" className="input__cancel-btn"></button>
+      <button tabIndex="-1" type="reset" className="input__cancel-btn">Cancel</button>
     )}
   </div>
 );

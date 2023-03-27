@@ -112,7 +112,7 @@ export const AddUserForm = ({
             />
           ))}
           <button
-            tabIndex={-1}
+            tabIndex="-1"
             style={{ cursor: 'pointer' }}
             disabled={loading}
             type="submit"
