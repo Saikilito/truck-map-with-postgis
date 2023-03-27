@@ -61,7 +61,7 @@ export const AddUserForm = ({
     e.preventDefault();
     let { username, longitude, latitude } = data;
 
-    console.log(username, longitude, latitude)
+    console.log(username, longitude, latitude);
 
     try {
       if (!username || username.length < 4) {
