@@ -8,18 +8,18 @@ const userRoutes = Router()
 userRoutes.get('/all', async (req: Request, res: Response) => {
   try {
     const { limit, km, latitude, longitude } = req.query
-    let searchByKm: ISeachByKm | undefined = undefined
+    let searchByKm: ISeachByKm | undefined
 
     if (latitude && longitude) {
       searchByKm = {
-        km: km ? parseInt(km as string) : undefined,
+        km: km ? parseInt(km as string) : 0,
         latitude: parseFloat(latitude as string),
         longitude: parseFloat(longitude as string)
       }
     }
 
     const userRepository = makeUserRepo()
-    const users = await useCases.getMany(userRepository, limit ? +limit : undefined, searchByKm)
+    const users = await useCases.getMany(userRepository, limit ? +limit : 100, searchByKm)
     res.json({ success: true, data: { users } })
   } catch (error) {
     console.error(error)

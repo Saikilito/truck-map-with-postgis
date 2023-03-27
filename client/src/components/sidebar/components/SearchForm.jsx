@@ -19,9 +19,9 @@ export const SearchForm = ({ onSearch }) => {
           id="search"
           name="searchByKm"
           placeholder={'Search By Km'}
-          tabIndex="1"
+          tabIndex={1}
           autofocus
-          clearable
+          clearable={false}
           className="sidebar__search-input"
           value={searchByKm}
           onChange={onChange}

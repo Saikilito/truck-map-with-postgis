@@ -11,7 +11,7 @@
     "leaflet": "~1.9.3",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
-    "react-leaflet": "~4.2.0",
+    "react-leaflet": "~3.2.5",
     "use-http": "~1.0.27"
   },
   "devDependencies": {

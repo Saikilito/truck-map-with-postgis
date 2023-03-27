@@ -9,6 +9,9 @@
     "build": "tsc",
     "lint": "eslint --ignore-path .gitignore . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
+    "prettier": "prettier --check \"src/**/*.{js,ts}\" --config ./.prettierrc",
+    "prettier:ci": "prettier --check --config ./.prettierrc",
+    "prettier:fix": "prettier --write \"src/**/*.{js,jsx}\"",
     "test": "jest --verbose --passWithNoTests"
   },
   "author": "",

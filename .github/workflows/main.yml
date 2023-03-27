@@ -42,6 +42,9 @@ jobs:
       - name: Lint - server
         run: npm run lint
         working-directory: ./server
+      - name: Prettier - server
+        run: npm run prettier
+        working-directory: ./server
       - name: All went well!
         run: echo Success
     env:

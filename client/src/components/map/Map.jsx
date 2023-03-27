@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
-import Marker from './marker/Marker';
+import Markers from './marker/Marker';
 
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
 const Map = ({
   results = [],
-  selectedItem = {},
+  selectedItem = { latitude: '', longitude: '' },
   userPosition,
+  hiddenUserForm,
+  markerPosition,
+  setMarkerPosition,
   onItemSelect = () => {},
 }) => {
   const mapRef = useRef(null);
@@ -19,6 +22,7 @@ const Map = ({
       return;
 
     const { latitude, longitude } = selectedItem;
+    // @ts-ignore
     mapRef.current.target.flyTo({ lat: latitude, lng: longitude }, 15);
   }, [selectedItem, selectedItem?.latitude, selectedItem?.longitude]);
 
@@ -27,9 +31,11 @@ const Map = ({
 
     const { latitude, longitude } = results[0];
 
+    // @ts-ignore
     mapRef.current.target.flyTo({ lat: latitude, lng: longitude });
 
     // Removing the map markers from keyboard flow
+    // @ts-ignore
     const mapElement = mapRef.current.target._container;
     const mapMarkersElements = mapElement.getElementsByClassName(
       'leaflet-marker-icon',
@@ -43,9 +49,10 @@ const Map = ({
   useEffect(() => {
     if (!mapRef.current) return;
 
+    // @ts-ignore
     mapRef.current.target.on({
       click: function () {
-        onItemSelect(null);
+        onItemSelect();
       },
       popupopen: function (event) {
         // When a popup is opened, then the focus is going to the PopUp, so it's easy to find
@@ -69,6 +76,7 @@ const Map = ({
     });
 
     // Removing the map container from keyboard flow
+    // @ts-ignore
     const mapElement = mapRef.current.target._container;
     mapElement.setAttribute('tabindex', '-1');
 
@@ -96,7 +104,7 @@ const Map = ({
       <MapContainer
         className="map"
         center={userPosition}
-        zoom={12}
+        zoom={3}
         whenReady={(map) => {
           mapRef.current = map;
         }}
@@ -105,15 +113,14 @@ const Map = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {results.length &&
-          results.map((result) => (
-            <Marker
-              key={`marker-${result.id}`}
-              item={result}
-              onItemSelect={onItemSelect}
-              selectedItem={selectedItem}
-            />
-          ))}
+        <Markers
+          results={results}
+          onItemSelect={onItemSelect}
+          selectedItem={selectedItem}
+          hiddenUserForm={hiddenUserForm}
+          markerPosition={markerPosition}
+          setMarkerPosition={setMarkerPosition}
+        />
       </MapContainer>
     </div>
   );

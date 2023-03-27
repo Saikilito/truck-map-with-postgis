@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import {
   Marker as MapMarker,
   Popup,
@@ -6,57 +6,94 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 
-const Marker = ({ item, onItemSelect, selectedItem }) => {
-  const [position, setPosition] = useState(null);
-  useEffect(() => console.info({ position }, [setPosition]));
+import { Icon } from 'leaflet';
+
+const Markers = ({
+  results,
+  onItemSelect,
+  selectedItem,
+  hiddenUserForm,
+  markerPosition,
+  setMarkerPosition,
+}) => {
   const map = useMapEvents({
-    click() {
-      map.locate();
+    click(e) {
+      if (hiddenUserForm) {
+        map.locate();
+        return;
+      }
+      setMarkerPosition((prev) => ({
+        ...prev,
+        latitude: e.latlng.lat,
+        longitude: e.latlng.lng,
+      }));
     },
     locationfound(e) {
-      setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
     },
   });
 
-  const markerRef = useRef(null);
-
-  useEffect(() => {
-    const isLoaded =
-      !!markerRef.current ||
-      !!selectedItem?.latitude ||
-      !!selectedItem?.longitude;
-    const isSelected = item.id === selectedItem?.id;
-
-    if (!isLoaded || !isSelected) return;
-
-    markerRef.current.openPopup();
-  }, [selectedItem, selectedItem?.latitude, selectedItem?.longitude]);
-
-  const isSelected = () => selectedItem?.id === item.id;
+  const markerIcon = () =>
+    new Icon({
+      iconUrl: `/images/marker-icon-2x.png`,
+      shadowUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [30, 46],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41],
+    });
 
   return (
-    <MapMarker
-      ref={markerRef}
-      position={{ lat: item.latitude, lng: item.longitude }}
-      eventHandlers={{
-        click: () => {
-          onItemSelect(item);
-        },
-      }}
-      opacity={!selectedItem?.id || isSelected() ? 1 : 0.3}
-    >
-      <Popup>
-        <h4>{item.username}</h4>
-        <i>
-          {item.latitude}, {item.longitude}
-        </i>
-      </Popup>
-      <Tooltip direction="bottom" offset={[0, 20]} opacity={1}>
-        {item.username}
-      </Tooltip>
-    </MapMarker>
+    <>
+      {results &&
+        results.map((item) => {
+          const isSelected = () => selectedItem?.id === item.id;
+          return (
+            <MapMarker
+              key={item.id}
+              icon={markerIcon()}
+              position={{ lat: item.latitude, lng: item.longitude }}
+              eventHandlers={{
+                click: () => {
+                  onItemSelect(item);
+                },
+              }}
+              opacity={!selectedItem?.id || isSelected() ? 1 : 0.3}
+            >
+              <Popup>
+                <h4>{item.username}</h4>
+                <i>
+                  {item.latitude}, {item.longitude}
+                </i>
+              </Popup>
+              <Tooltip direction="bottom" offset={[0, 20]} opacity={1}>
+                {item.username}
+              </Tooltip>
+            </MapMarker>
+          );
+        })}
+      {markerPosition && !hiddenUserForm && (
+        <MapMarker
+          icon={markerIcon()}
+          position={{
+            lat: markerPosition.latitude,
+            lng: markerPosition.longitude,
+          }}
+        >
+          <Popup>
+            <h4>{markerPosition.username}</h4>
+            <i>
+              {markerPosition.latitude}, {markerPosition.longitude}
+            </i>
+          </Popup>
+          <Tooltip direction="bottom" offset={[0, 20]} opacity={1}>
+            {markerPosition.username}
+          </Tooltip>
+        </MapMarker>
+      )}
+    </>
   );
 };
 
-export default Marker;
+export default Markers;

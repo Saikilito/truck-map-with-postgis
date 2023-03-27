@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import useFetch from 'use-http';
 import L from 'leaflet';
 
@@ -15,11 +15,21 @@ function generateRandomCoordinates() {
 }
 
 const Home = () => {
-  const [userPosition, setUserPosition] = React.useState(
+  const [userPosition, setUserPosition] = useState(
+    // @ts-ignore
     new L.LatLng(...generateRandomCoordinates()),
   );
-  const [persons, setPersons] = React.useState([]);
-  const [selectedPerson, setSelectedPerson] = React.useState(null);
+  const [persons, setPersons] = useState([]);
+  const [selectedPerson, setSelectedPerson] = useState({
+    latitude: '',
+    longitude: '',
+  });
+  const [markerPosition, setMarkerPosition] = useState({
+    username: '',
+    latitude: '',
+    longitude: '',
+  });
+  const [hiddenUserForm, setHiddenUserForm] = useState(true);
 
   const { get, post, response, loading, error } = useFetch(
     Constants.backendBasePath,
@@ -40,17 +50,20 @@ const Home = () => {
   }, []);
 
   // Create first user
-  useEffect(async () => {
-    if (!persons.length) {
+  useEffect(() => {
+    const getUserOrCreate = async () => {
       const user = await get('/all?limit=1');
       const notUsers = user.length === 0;
       if (notUsers) {
         await post('/create', {
-          username: 'My Selft',
+          username: 'My Self',
           latitude: userPosition.lat,
           longitude: userPosition.lng,
         });
       }
+    };
+    if (!persons.length) {
+      getUserOrCreate();
     }
   }, []);
 
@@ -59,13 +72,21 @@ const Home = () => {
     getAPIPersons();
   }, []);
 
+  useEffect(() => {
+    setMarkerPosition({
+      username: '',
+      latitude: '',
+      longitude: '',
+    });
+  }, [hiddenUserForm]);
+
   const getAPIPersons = async () => {
     const rawPersons = await get(`/all`);
 
     if (response.ok) {
       const persons = rawPersons.data.users;
       const referencedPersons = persons.map((person) => {
-        person.ref = React.createRef();
+        person.ref = createRef();
         return person;
       });
 
@@ -98,6 +119,10 @@ const Home = () => {
     }
   };
 
+  const onHandleHiddenForm = () => {
+    setHiddenUserForm(!hiddenUserForm);
+  };
+
   return (
     <div className="home">
       <Sidebar
@@ -110,12 +135,19 @@ const Home = () => {
         getAllResults={getAPIPersons}
         onSearch={onSubmitSearch}
         onItemSelect={onPersonSelected}
+        hiddenUserForm={hiddenUserForm}
+        onHandleHiddenForm={onHandleHiddenForm}
+        markerPosition={markerPosition}
+        setMarkerPosition={setMarkerPosition}
       />
       <Map
         userPosition={userPosition}
         selectedItem={selectedPerson}
         results={persons}
         onItemSelect={onPersonSelected}
+        hiddenUserForm={hiddenUserForm}
+        markerPosition={markerPosition}
+        setMarkerPosition={setMarkerPosition}
       />
     </div>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 import './Input.css';
 
 const Input = ({
-  type,
   id,
   placeholder,
   className,
@@ -11,7 +10,10 @@ const Input = ({
   onChange,
   clearable,
   autofocus,
-  tabIndex = '0',
+  type = 'text',
+  tabIndex = 0,
+  readonly = false,
+  required = false,
 }) => (
   <div className="input-container">
     <input
@@ -24,9 +26,13 @@ const Input = ({
       className={`input ${className}`}
       value={value}
       onChange={onChange}
+      readOnly={readonly}
+      required={required}
     />
     {clearable && (
-      <button tabIndex="-1" type="reset" className="input__cancel-btn"></button>
+      <button tabIndex={-1} type="reset" className="input__cancel-btn">
+        Cancel
+      </button>
     )}
   </div>
 );
