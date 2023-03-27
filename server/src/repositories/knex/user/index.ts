@@ -37,7 +37,7 @@ export const makeUserRepo = (): UserRepository => ({
               earth_distance(ll_to_earth(?, ?), ll_to_earth(latitude, longitude)) <= ? * 1000.0
       `
       }
-      query += `ORDER BY distance_in_km`
+      query += 'ORDER BY distance_in_km'
 
       const rawUsers = (await client((knex) =>
         knex.raw(query, [latitude, longitude, latitude, longitude, km, latitude, longitude, km])
@@ -58,7 +58,7 @@ export const makeUserRepo = (): UserRepository => ({
 
   getById: async (id) => {
     const rawUser = (await client((knex) =>
-      knex.raw(`select *, ST_AsText(location) as location_as_text from users where id=?`, [id])
+      knex.raw('select *, ST_AsText(location) as location_as_text from users where id=?', [id])
     )) as GetRow
 
     const [user] = rawUser.rows
@@ -67,7 +67,7 @@ export const makeUserRepo = (): UserRepository => ({
   },
 
   deleteById: async (id) => {
-    await client((knex) => knex.raw(`delete from users where id=?`, [id]))
+    await client((knex) => knex.raw('delete from users where id=?', [id]))
   },
 
   update: async (id, data) => {
